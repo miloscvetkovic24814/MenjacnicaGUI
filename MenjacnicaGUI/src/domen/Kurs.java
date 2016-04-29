@@ -10,13 +10,12 @@ public class Kurs {
 	private String skraceniNaziv;
 
 	public Kurs(String sifra, String naziv, double prodajni, double kupovni, double srednji, String skraceniNaziv) {
-		super();
-		this.sifra = sifra;
-		this.naziv = naziv;
-		this.prodajni = prodajni;
-		this.kupovni = kupovni;
-		this.srednji = srednji;
-		this.skraceniNaziv = skraceniNaziv;
+		setSifra(sifra);
+		setNaziv(naziv);
+		setProdajni(prodajni);
+		setKupovni(kupovni);
+		setSrednji(srednji);
+		setSkraceniNaziv(skraceniNaziv);
 	}
 
 	public String getSifra() {
@@ -24,6 +23,9 @@ public class Kurs {
 	}
 
 	public void setSifra(String sifra) {
+		if (sifra == null || sifra.isEmpty()) {
+			throw new RuntimeException();
+		}
 		this.sifra = sifra;
 	}
 
@@ -32,6 +34,9 @@ public class Kurs {
 	}
 
 	public void setNaziv(String naziv) {
+		if (naziv == null || naziv.isEmpty()) {
+			throw new RuntimeException();
+		}
 		this.naziv = naziv;
 	}
 
@@ -40,6 +45,9 @@ public class Kurs {
 	}
 
 	public void setProdajni(double prodajni) {
+		if (prodajni < 0) {
+			throw new RuntimeException();
+		}
 		this.prodajni = prodajni;
 	}
 
@@ -48,6 +56,9 @@ public class Kurs {
 	}
 
 	public void setKupovni(double kupovni) {
+		if (kupovni < 0) {
+			throw new RuntimeException();
+		}
 		this.kupovni = kupovni;
 	}
 
@@ -56,6 +67,9 @@ public class Kurs {
 	}
 
 	public void setSrednji(double srednji) {
+		if (srednji < 0) {
+			throw new RuntimeException();
+		}
 		this.srednji = srednji;
 	}
 
@@ -64,6 +78,9 @@ public class Kurs {
 	}
 
 	public void setSkraceniNaziv(String skraceniNaziv) {
+		if (skraceniNaziv == null || skraceniNaziv.isEmpty()) {
+			throw new RuntimeException();
+		}
 		this.skraceniNaziv = skraceniNaziv;
 	}
 
