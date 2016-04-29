@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 @SuppressWarnings("serial")
 public class DaLiZeliteDaObriseteRed extends JDialog {
@@ -27,6 +28,7 @@ public class DaLiZeliteDaObriseteRed extends JDialog {
 	 * Create the dialog.
 	 */
 	public DaLiZeliteDaObriseteRed(JTextArea polje, JTable table, Model model) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DaLiZeliteDaObriseteRed.class.getResource("/javax/swing/plaf/metal/icons/ocean/question.png")));
 		setTitle("Potvrda");
 		setBounds(100, 100, 421, 138);
 		getContentPane().setLayout(new BorderLayout());

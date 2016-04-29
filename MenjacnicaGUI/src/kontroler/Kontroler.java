@@ -1,7 +1,10 @@
 package kontroler;
 
 import java.awt.EventQueue;
+
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -9,7 +12,9 @@ import menjacnica.gui.About;
 import menjacnica.gui.DaLiZeliteDaObriseteRed;
 import menjacnica.gui.ExitDialog;
 import menjacnica.gui.IzaberiRedZaBrisanjeDialog;
+import menjacnica.gui.IzvrsiZamenuGui;
 import menjacnica.gui.MenjacnicaGUI;
+import menjacnica.gui.MorateDaUneseteKurs;
 import model.Model;
 
 public class Kontroler {
@@ -25,6 +30,12 @@ public class Kontroler {
 		s[3] = txtKupovniKurs.getText();
 		s[4] = txtSrednjiKurs.getText();
 		s[5] = txtSkraceniNaziv.getText();
+		for (int i = 0; i < s.length; i++) {
+			if(s[i] == null || s[i].isEmpty()){
+				new MorateDaUneseteKurs().setVisible(true);
+				return;
+			}
+		}
 		prikazi(polje, s);
 		m.addRow(s);
 		m.fireTableDataChanged();
@@ -90,6 +101,22 @@ public class Kontroler {
 		}else{
 			new DaLiZeliteDaObriseteRed(polje, table, model).setVisible(true);
 		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static void zameniKurs(JTextArea polje, String iznos, JRadioButton rdbtnKupovina, JRadioButton rdbtnProdaja, JComboBox comboBox){
+		String rb = ", Nije izabrana kupovina/prodaja.";
+		if(rdbtnKupovina.isSelected()){
+			rb = ", Kupovina.";
+		}else if(rdbtnProdaja.isSelected()){
+			rb = ", Prodaja.";
+		}
+		String s = "\nNaziv valute: " + comboBox.getSelectedItem() + " Iznos: " + iznos + rb;
+		polje.setText(s);
+	}
+	
+	public static void izvrsiZamenu(JTextArea polje){
+		new IzvrsiZamenuGui(polje).setVisible(true);
 	}
 
 	/**

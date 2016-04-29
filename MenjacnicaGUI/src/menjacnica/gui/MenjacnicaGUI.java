@@ -28,6 +28,7 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextArea;
+import java.awt.Font;
 
 @SuppressWarnings("serial")
 public class MenjacnicaGUI extends JFrame {
@@ -115,6 +116,11 @@ public class MenjacnicaGUI extends JFrame {
 		panelEast.add(btnIzbrisiKurs, gbc_btnIzbrisiKurs);
 		
 		JButton btnIzvrsiZamenu = new JButton("Izvrsi zamenu");
+		btnIzvrsiZamenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Kontroler.izvrsiZamenu(polje);
+			}
+		});
 		GridBagConstraints gbc_btnIzvrsiZamenu = new GridBagConstraints();
 		gbc_btnIzvrsiZamenu.insets = new Insets(0, 0, 0, 5);
 		gbc_btnIzvrsiZamenu.anchor = GridBagConstraints.NORTH;
@@ -142,6 +148,11 @@ public class MenjacnicaGUI extends JFrame {
 		popupMenu.add(mntmIzbrisiKurs);
 		
 		JMenuItem mntmIzvrsiZamenu = new JMenuItem("Izvrsi zamenu");
+		mntmIzvrsiZamenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Kontroler.izvrsiZamenu(polje);
+			}
+		});
 		popupMenu.add(mntmIzvrsiZamenu);	
 		
 		Model model = Kontroler.kreirajModel();		
@@ -150,6 +161,7 @@ public class MenjacnicaGUI extends JFrame {
 		scrollPaneCenter.setViewportView(table);
 		
 		JTextArea textArea = new JTextArea();
+		textArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
 		polje = textArea;
 		scrollPaneSouth.setViewportView(textArea);
 			

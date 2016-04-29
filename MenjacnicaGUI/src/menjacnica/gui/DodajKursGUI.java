@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
+import java.awt.Toolkit;
 
 @SuppressWarnings("serial")
 public class DodajKursGUI extends JFrame {
@@ -36,6 +37,7 @@ public class DodajKursGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public DodajKursGUI(MenjacnicaGUI m, Model modelRoditelja) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DodajKursGUI.class.getResource("/com/sun/javafx/scene/control/skin/caspian/fxvk-capslock-button.png")));
 		menjacnica = m;
 		setResizable(false);
 		setTitle("Dodaj kurs");
