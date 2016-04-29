@@ -1,13 +1,11 @@
 package menjacnica.gui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 
+import kontroler.Kontroler;
 import model.Model;
 
 import java.awt.Toolkit;
@@ -20,8 +18,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -35,26 +31,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextArea;
 
+@SuppressWarnings("serial")
 public class MenjacnicaGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MenjacnicaGUI frame = new MenjacnicaGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -71,17 +53,21 @@ public class MenjacnicaGUI extends JFrame {
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
+		
+		
 		JMenuItem mntmOpen = new JMenuItem("Open");
 		mntmOpen.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/javax/swing/plaf/metal/icons/ocean/directory.gif")));
 		mntmOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		mnFile.add(mntmOpen);
 		
 		JMenuItem mntmSave = new JMenuItem("Save");
+		
 		mntmSave.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/javax/swing/plaf/metal/icons/ocean/floppy.gif")));
 		mntmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		mnFile.add(mntmSave);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
+		
 		mntmExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_MASK));
 		mnFile.add(mntmExit);
 		
@@ -89,6 +75,11 @@ public class MenjacnicaGUI extends JFrame {
 		menuBar.add(mnHelp);
 		
 		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Kontroler.aboutDialog();
+			}
+		});
 		mnHelp.add(mntmAbout);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -133,14 +124,16 @@ public class MenjacnicaGUI extends JFrame {
 		gbc_btnIzvrsiZamenu.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnIzvrsiZamenu.gridx = 1;
 		gbc_btnIzvrsiZamenu.gridy = 2;
-		panelEast.add(btnIzvrsiZamenu, gbc_btnIzvrsiZamenu);
+		panelEast.add(btnIzvrsiZamenu, gbc_btnIzvrsiZamenu);	
+		
+		JScrollPane scrollPaneSouth = new JScrollPane();
+		scrollPaneSouth.setAutoscrolls(true);
+		scrollPaneSouth.setBorder(new TitledBorder(null, "STATUS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		contentPane.add(scrollPaneSouth, BorderLayout.SOUTH);
 		
 		JScrollPane scrollPaneCenter = new JScrollPane();
 		contentPane.add(scrollPaneCenter, BorderLayout.CENTER);
 		
-		Model model = new Model();
-		String[] naziviKolona = {"Sifra", "Skraceni naziv", "Prodajni", "Srednji", "Kupovni", "Naziv"};
-		model.setColumnIdentifiers(naziviKolona);
 		
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(scrollPaneCenter, popupMenu);
@@ -152,18 +145,35 @@ public class MenjacnicaGUI extends JFrame {
 		popupMenu.add(mntmIzbrisiKurs);
 		
 		JMenuItem mntmIzvrsiZamenu = new JMenuItem("Izvrsi zamenu");
-		popupMenu.add(mntmIzvrsiZamenu);
+		popupMenu.add(mntmIzvrsiZamenu);	
+		
+		Model model = Kontroler.kreirajModel();		
 		table = new JTable();
 		table.setModel(model);
 		scrollPaneCenter.setViewportView(table);
 		
-		JScrollPane scrollPaneSouth = new JScrollPane();
-		scrollPaneSouth.setAutoscrolls(true);
-		scrollPaneSouth.setBorder(new TitledBorder(null, "STATUS", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		contentPane.add(scrollPaneSouth, BorderLayout.SOUTH);
-		
 		JTextArea textArea = new JTextArea();
 		scrollPaneSouth.setViewportView(textArea);
+			
+		
+		
+		mntmOpen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				textArea.setText(textArea.getText() + "\n" + Kontroler.open());
+			}
+		});
+		
+		mntmSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textArea.setText(textArea.getText() + "\n" + Kontroler.save());
+			}
+		});
+		
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Kontroler.exitDialog();
+			}
+		});
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
