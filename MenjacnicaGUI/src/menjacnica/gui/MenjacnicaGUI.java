@@ -105,10 +105,7 @@ public class MenjacnicaGUI extends JFrame {
 		panelEast.add(btnDodajKurs, gbc_btnDodajKurs);
 		
 		JButton btnIzbrisiKurs = new JButton("Izbrisi kurs");
-		btnIzbrisiKurs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		
 		GridBagConstraints gbc_btnIzbrisiKurs = new GridBagConstraints();
 		gbc_btnIzbrisiKurs.anchor = GridBagConstraints.NORTH;
 		gbc_btnIzbrisiKurs.fill = GridBagConstraints.HORIZONTAL;
@@ -141,7 +138,7 @@ public class MenjacnicaGUI extends JFrame {
 		JMenuItem mntmDodajKurs = new JMenuItem("Dodaj kurs");
 		popupMenu.add(mntmDodajKurs);
 		
-		JMenuItem mntmIzbrisiKurs = new JMenuItem("Izbrisi kurs");
+		JMenuItem mntmIzbrisiKurs = new JMenuItem("Izbrisi kurs");		
 		popupMenu.add(mntmIzbrisiKurs);
 		
 		JMenuItem mntmIzvrsiZamenu = new JMenuItem("Izvrsi zamenu");
@@ -185,6 +182,18 @@ public class MenjacnicaGUI extends JFrame {
 		mntmDodajKurs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new DodajKursGUI(roditelj, model).setVisible(true);
+			}
+		});
+		
+		btnIzbrisiKurs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Kontroler.DaLiZeliteDaObriseteRed(polje, table, model);
+			}
+		});
+		
+		mntmIzbrisiKurs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Kontroler.DaLiZeliteDaObriseteRed(polje, table, model);
 			}
 		});
 		

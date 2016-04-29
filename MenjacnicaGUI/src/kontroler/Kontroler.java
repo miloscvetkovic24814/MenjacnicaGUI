@@ -1,30 +1,20 @@
 package kontroler;
 
 import java.awt.EventQueue;
-import java.util.LinkedList;
-
 import javax.swing.JFileChooser;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import domen.Kurs;
 import menjacnica.gui.About;
+import menjacnica.gui.DaLiZeliteDaObriseteRed;
 import menjacnica.gui.ExitDialog;
+import menjacnica.gui.IzaberiRedZaBrisanjeDialog;
 import menjacnica.gui.MenjacnicaGUI;
 import model.Model;
 
 public class Kontroler {
 
 	private static String[] s = new String[6];
-	private static LinkedList<Kurs> kursevi = new LinkedList<Kurs>();
-
-	public static LinkedList<Kurs> getKursevi() {
-		return kursevi;
-	}
-
-	private static void dodajKurs(Kurs kurs) {
-		kursevi.add(kurs);
-	}
 
 	public static void dodaj(Model m, JTextArea polje, JTextField textFieldSifra, JTextField txtNaziv,
 			JTextField txtProdajniKurs, JTextField txtKupovniKurs, JTextField txtSrednjiKurs,
@@ -35,11 +25,9 @@ public class Kontroler {
 		s[3] = txtKupovniKurs.getText();
 		s[4] = txtSrednjiKurs.getText();
 		s[5] = txtSkraceniNaziv.getText();
-		Kurs kurs = new Kurs(s[0], s[1], Double.parseDouble(s[2]), Double.parseDouble(s[3]), Double.parseDouble(s[4]),
-				s[5]);
-		dodajKurs(kurs);
 		prikazi(polje, s);
-		ucitajPodatkeUModel(m);
+		m.addRow(s);
+		m.fireTableDataChanged();
 	}
 
 	private static void prikazi(JTextArea polje, String[] s) {
@@ -51,15 +39,6 @@ public class Kontroler {
 		polje.setText(pom);
 	}
 
-	private static void ucitajPodatkeUModel(Model m) {
-		for (int i = 0; i < kursevi.size(); i++) {
-			String[] s = { kursevi.get(i).getSifra(), kursevi.get(i).getNaziv(), "" + kursevi.get(i).getProdajni(),
-					"" + kursevi.get(i).getKupovni(), "" + kursevi.get(i).getSrednji(),
-					kursevi.get(i).getSkraceniNaziv() };
-			m.addRow(s);
-		}
-		m.fireTableDataChanged();
-	}
 
 	public static void aboutDialog() {
 		String podaciOAutoru = "Ime i prezime: Milos Cvetkovic \nZanimanje: Student ";
@@ -96,6 +75,21 @@ public class Kontroler {
 		String[] naziviKolona = { "Sifra", "Skraceni naziv", "Prodajni", "Srednji", "Kupovni", "Naziv" };
 		model.setColumnIdentifiers(naziviKolona);
 		return model;
+	}
+	
+	public static void obrisiRed(JTextArea polje, JTable table, Model m){		
+		String s = "\nIzbrisan je red: " + table.getSelectedRow();
+		m.removeRow(table.getSelectedRow());
+		m.fireTableDataChanged();
+		polje.setText(polje.getText() + s);
+	}
+	
+	public static void DaLiZeliteDaObriseteRed(JTextArea polje, JTable table, Model model){
+		if(table.getSelectedRow() == -1){
+			new IzaberiRedZaBrisanjeDialog().setVisible(true);
+		}else{
+			new DaLiZeliteDaObriseteRed(polje, table, model).setVisible(true);
+		}
 	}
 
 	/**
