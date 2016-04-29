@@ -4,10 +4,8 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import kontroler.Kontroler;
 import model.Model;
-
 import java.awt.Toolkit;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -36,7 +34,8 @@ public class MenjacnicaGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-
+	private MenjacnicaGUI roditelj = this;
+	private JTextArea polje;
 
 	/**
 	 * Create the frame.
@@ -96,6 +95,7 @@ public class MenjacnicaGUI extends JFrame {
 		panelEast.setLayout(gbl_panelEast);
 		
 		JButton btnDodajKurs = new JButton("Dodaj kurs");
+		
 		GridBagConstraints gbc_btnDodajKurs = new GridBagConstraints();
 		gbc_btnDodajKurs.anchor = GridBagConstraints.NORTH;
 		gbc_btnDodajKurs.fill = GridBagConstraints.HORIZONTAL;
@@ -153,6 +153,7 @@ public class MenjacnicaGUI extends JFrame {
 		scrollPaneCenter.setViewportView(table);
 		
 		JTextArea textArea = new JTextArea();
+		polje = textArea;
 		scrollPaneSouth.setViewportView(textArea);
 			
 		
@@ -174,6 +175,19 @@ public class MenjacnicaGUI extends JFrame {
 				Kontroler.exitDialog();
 			}
 		});
+		
+		btnDodajKurs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new DodajKursGUI(roditelj, model).setVisible(true);
+			}
+		});
+		
+		mntmDodajKurs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new DodajKursGUI(roditelj, model).setVisible(true);
+			}
+		});
+		
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
@@ -193,4 +207,11 @@ public class MenjacnicaGUI extends JFrame {
 			}
 		});
 	}
+
+	
+	public JTextArea getPolje(){
+		return polje;
+	}
+	
+
 }
